@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://d1ph4qgsunw74"]
+
+[ext_resource type="PackedScene" uid="uid://c8so0dalvs37c" path="res://player.tscn" id="1_80nbo"]
+[ext_resource type="Script" uid="uid://c5tcrdmred71m" path="res://game.gd" id="1_e2o6t"]
+[ext_resource type="PackedScene" uid="uid://ddexj5readqa6" path="res://pipes.tscn" id="2_feb5d"]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_e2o6t")
+pipe_scene = ExtResource("2_feb5d")
+
+[node name="PipeTimer" type="Timer" parent="."]
+wait_time = 10.0
+autostart = true
+
+[node name="Player" parent="." instance=ExtResource("1_80nbo")]
+position = Vector2(100, 300)
+
+[connection signal="timeout" from="PipeTimer" to="." method="_on_pipe_timer_timeout"]

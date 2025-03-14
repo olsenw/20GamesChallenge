@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=3 uid="uid://c8so0dalvs37c"]
+
+[ext_resource type="Script" uid="uid://d1eow5tvs8n4n" path="res://player.gd" id="1_4flbx"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_sh265"]
+
+[node name="Player" type="RigidBody2D"]
+script = ExtResource("1_4flbx")
+metadata/_edit_group_ = true
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+color = Color(1, 0, 0, 1)
+polygon = PackedVector2Array(0, 10, 7.07, 7.07, 10, 0, 7.07, -7.07, 0, -10, -7.07, -7.07, -10, 0, -7.07, 7.07)
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_sh265")
+metadata/_edit_lock_ = true
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+amount = 30
+direction = Vector2(-10, 0)
+spread = 0.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 100.0
+initial_velocity_max = 100.0
+metadata/_edit_lock_ = true
+
+[connection signal="hit" from="." to="." method="_on_hit"]

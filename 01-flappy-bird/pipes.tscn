@@ -1,0 +1,50 @@
+[gd_scene load_steps=3 format=3 uid="uid://ddexj5readqa6"]
+
+[ext_resource type="Script" uid="uid://5fqtd2tlg3t4" path="res://pipes.gd" id="1_r1kwc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lsmmk"]
+size = Vector2(10, 500)
+
+[node name="Pipes" type="Node2D"]
+script = ExtResource("1_r1kwc")
+
+[node name="LowerPipe" type="RigidBody2D" parent="."]
+position = Vector2(0, 40)
+collision_mask = 0
+gravity_scale = 0.0
+linear_velocity = Vector2(-100, 0)
+linear_damp_mode = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LowerPipe"]
+position = Vector2(0, 250)
+shape = SubResource("RectangleShape2D_lsmmk")
+metadata/_edit_lock_ = true
+
+[node name="Polygon2D" type="Polygon2D" parent="LowerPipe"]
+color = Color(0, 0.686275, 0, 1)
+polygon = PackedVector2Array(-5, 500, 5, 500, 5, 0, -5, 0)
+metadata/_edit_lock_ = true
+
+[node name="UpperPipe" type="RigidBody2D" parent="."]
+position = Vector2(0, -40)
+rotation = 3.1414
+collision_mask = 0
+gravity_scale = 0.0
+linear_velocity = Vector2(-100, 0)
+linear_damp_mode = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="UpperPipe"]
+position = Vector2(0, 250)
+shape = SubResource("RectangleShape2D_lsmmk")
+metadata/_edit_lock_ = true
+
+[node name="Polygon2D" type="Polygon2D" parent="UpperPipe"]
+color = Color(0, 0.686275, 0, 1)
+polygon = PackedVector2Array(-5, 500, 5, 500, 5, 0, -5, 0)
+metadata/_edit_lock_ = true
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+rect = Rect2(-5, -520, 10, 1040)
+metadata/_edit_lock_ = true
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
