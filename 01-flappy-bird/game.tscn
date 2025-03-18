@@ -1,18 +1,66 @@
-[gd_scene load_steps=4 format=3 uid="uid://d1ph4qgsunw74"]
+[gd_scene load_steps=5 format=3 uid="uid://d1ph4qgsunw74"]
 
 [ext_resource type="PackedScene" uid="uid://c8so0dalvs37c" path="res://player.tscn" id="1_80nbo"]
 [ext_resource type="Script" uid="uid://c5tcrdmred71m" path="res://game.gd" id="1_e2o6t"]
 [ext_resource type="PackedScene" uid="uid://ddexj5readqa6" path="res://pipes.tscn" id="2_feb5d"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_feb5d"]
+size = Vector2(400, 20)
+
 [node name="Node2D" type="Node2D"]
+process_mode = 3
 script = ExtResource("1_e2o6t")
 pipe_scene = ExtResource("2_feb5d")
 
 [node name="PipeTimer" type="Timer" parent="."]
-wait_time = 10.0
+wait_time = 2.0
 autostart = true
 
 [node name="Player" parent="." instance=ExtResource("1_80nbo")]
-position = Vector2(100, 300)
+position = Vector2(100, 150)
+linear_velocity = Vector2(0, -250)
+jump = -500
+
+[node name="PipesHolder" type="Node2D" parent="."]
+
+[node name="Pipes" parent="PipesHolder" instance=ExtResource("2_feb5d")]
+
+[node name="Floor" type="StaticBody2D" parent="."]
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
+position = Vector2(200, 290)
+shape = SubResource("RectangleShape2D_feb5d")
+
+[node name="Polygon2D" type="Polygon2D" parent="Floor"]
+color = Color(0, 1, 0, 1)
+polygon = PackedVector2Array(0, 280, 0, 300, 400, 300, 400, 280)
+
+[node name="Press R to restart" type="Label" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 129.0
+offset_top = 139.0
+offset_right = 284.0
+offset_bottom = 162.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+text = "Press \"R\" to Restart!"
+
+[node name="Score" type="Label" parent="."]
+offset_left = 356.0
+offset_top = 7.0
+offset_right = 396.0
+offset_bottom = 30.0
+size_flags_horizontal = 4
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="timeout" from="PipeTimer" to="." method="_on_pipe_timer_timeout"]
+[connection signal="hit" from="Player" to="." method="_on_player_hit"]
+[connection signal="score" from="PipesHolder/Pipes" to="." method="_on_pipes_score"]

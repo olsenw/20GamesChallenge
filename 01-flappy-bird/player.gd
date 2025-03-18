@@ -16,10 +16,13 @@ func _ready() -> void:
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("jump"):
 		jumping = true
-	elif event.is_action_pressed("reset"):
-		set_freeze_mode(RigidBody2D.FREEZE_MODE_KINEMATIC)
-		reset_request = true
+	#elif event.is_action_pressed("reset"):
+		#set_freeze_mode(RigidBody2D.FREEZE_MODE_KINEMATIC)
+		#reset_request = true
 	pass
+	
+func reset() -> void:
+	set_deferred("reset_request", true)
 
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	var velocity := state.get_linear_velocity()
@@ -36,6 +39,7 @@ func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	pass
 
 
-func _on_hit() -> void:
-	set_freeze_mode(RigidBody2D.FREEZE_MODE_STATIC)
+func _on_body_entered(body: Node) -> void:
+	hit.emit()
+	#print("player - hit")
 	pass # Replace with function body.
