@@ -1,0 +1,68 @@
+[gd_scene load_steps=8 format=3 uid="uid://bjf5nqrw2wdd1"]
+
+[ext_resource type="PackedScene" uid="uid://ccpgdnxis27d5" path="res://ball.tscn" id="1_80nbo"]
+[ext_resource type="PackedScene" uid="uid://dphs01olf8e2y" path="res://paddle.tscn" id="2_e2o6t"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mwb40"]
+size = Vector2(800, 600)
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_e2o6t"]
+friction = 0.0
+bounce = 1.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_80nbo"]
+size = Vector2(20, 600)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e2o6t"]
+size = Vector2(800, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_feb5d"]
+size = Vector2(1600, 20)
+
+[node name="Game" type="Node2D"]
+
+[node name="PhysicsOverride" type="Area2D" parent="."]
+visible = false
+gravity_space_override = 3
+gravity = 0.0
+linear_damp_space_override = 3
+linear_damp = 0.0
+angular_damp_space_override = 3
+angular_damp = 0.0
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PhysicsOverride"]
+position = Vector2(400, 300)
+shape = SubResource("RectangleShape2D_mwb40")
+
+[node name="Walls" type="StaticBody2D" parent="."]
+collision_mask = 0
+physics_material_override = SubResource("PhysicsMaterial_e2o6t")
+metadata/_edit_lock_ = true
+
+[node name="WallLeft" type="CollisionShape2D" parent="Walls"]
+position = Vector2(10, 300)
+shape = SubResource("RectangleShape2D_80nbo")
+
+[node name="WallRight" type="CollisionShape2D" parent="Walls"]
+position = Vector2(790, 300)
+shape = SubResource("RectangleShape2D_80nbo")
+
+[node name="Ceiling" type="CollisionShape2D" parent="Walls"]
+position = Vector2(400, 10)
+shape = SubResource("RectangleShape2D_e2o6t")
+
+[node name="DetectLeave" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 0
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectLeave"]
+position = Vector2(400, 650)
+shape = SubResource("RectangleShape2D_feb5d")
+
+[node name="Ball" parent="." instance=ExtResource("1_80nbo")]
+position = Vector2(400, 550)
+
+[node name="Paddle" parent="." instance=ExtResource("2_e2o6t")]
+position = Vector2(400, 590)
