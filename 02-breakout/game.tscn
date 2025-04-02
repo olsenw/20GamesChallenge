@@ -1,7 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://bjf5nqrw2wdd1"]
+[gd_scene load_steps=10 format=3 uid="uid://bjf5nqrw2wdd1"]
 
 [ext_resource type="PackedScene" uid="uid://ccpgdnxis27d5" path="res://ball.tscn" id="1_80nbo"]
+[ext_resource type="Script" uid="uid://b8ntmyffikmwn" path="res://game.gd" id="1_feb5d"]
 [ext_resource type="PackedScene" uid="uid://dphs01olf8e2y" path="res://paddle.tscn" id="2_e2o6t"]
+[ext_resource type="PackedScene" uid="uid://cednjlbr8j0sh" path="res://brick.tscn" id="4_fc0e3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mwb40"]
 size = Vector2(800, 600)
@@ -20,6 +22,8 @@ size = Vector2(800, 20)
 size = Vector2(1600, 20)
 
 [node name="Game" type="Node2D"]
+script = ExtResource("1_feb5d")
+brick_scene = ExtResource("4_fc0e3")
 
 [node name="PhysicsOverride" type="Area2D" parent="."]
 visible = false
@@ -52,6 +56,9 @@ shape = SubResource("RectangleShape2D_80nbo")
 position = Vector2(400, 10)
 shape = SubResource("RectangleShape2D_e2o6t")
 
+[node name="Polygon2D" type="Polygon2D" parent="Walls"]
+polygon = PackedVector2Array(20, 20, 780, 20, 780, 600, 800, 600, 800, 0, 0, 0, 0, 600, 20, 600)
+
 [node name="DetectLeave" type="Area2D" parent="."]
 collision_layer = 2
 collision_mask = 0
@@ -66,3 +73,21 @@ position = Vector2(400, 550)
 
 [node name="Paddle" parent="." instance=ExtResource("2_e2o6t")]
 position = Vector2(400, 590)
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+amount = 64
+direction = Vector2(0, -1)
+initial_velocity_min = 50.0
+initial_velocity_max = 100.0
+
+[node name="BrickCollection" type="Node2D" parent="."]
+
+[node name="Label" type="Label" parent="."]
+offset_left = 728.0
+offset_top = 27.0
+offset_right = 768.0
+offset_bottom = 50.0
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[connection signal="area_entered" from="DetectLeave" to="." method="_on_detect_leave_area_entered"]
