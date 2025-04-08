@@ -5,6 +5,7 @@ var launch : bool = false
 var launchable : bool = true
 var reset : bool = false
 var origin : Vector2
+var paddle : Node
 
 func _ready() -> void:
 	origin = position
@@ -14,6 +15,7 @@ func _ready() -> void:
 		var r : float = deg_to_rad(d)
 		circle.append(Vector2(radius * cos(r), radius * sin(r)))
 	$Polygon2D.polygon = circle
+	paddle = get_tree().get_root().get_node("Game").get_node("Paddle")
 	pass
 
 func reset_ball() -> void:
@@ -28,6 +30,9 @@ func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 		reset = false
 		position = origin
 		linear_velocity = Vector2.ZERO
+	if launchable == true:
+		position.x = paddle.global_position.x
+		#position.x = get_tree().get_root().get_node('Paddle').positions.x
 	if launch == true:
 		launch = false
 		linear_velocity = launchVector

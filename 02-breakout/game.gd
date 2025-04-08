@@ -1,10 +1,12 @@
 extends Node2D
 
+@export var lives: int
 @export var score: int
 @export var brick_scene: PackedScene
 
 func _ready() -> void:
-	$Label.text = str(score)
+	$LivesLabel.text = str(lives)
+	$ScoreLabel.text = str(score)
 	for row in range(5):
 		for col in range(5):
 			var brick = brick_scene.instantiate()
@@ -16,9 +18,14 @@ func _ready() -> void:
 
 func _on_score(value:int) -> void:
 	score += value
-	$Label.text = str(score)
+	$ScoreLabel.text = str(score)
 	pass
 
-func _on_detect_leave_area_entered(area: Area2D) -> void:
-	# detect if ball is out of bounds
+func _on_detect_leave_body_entered(body: Node2D) -> void:
+	lives -= 1
+	$LivesLabel.text = str(lives)
+	if lives > 0:
+		$Ball.reset_ball()
+	else:
+		$GameOverLabel.visible = true
 	pass # Replace with function body.
